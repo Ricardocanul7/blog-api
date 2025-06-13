@@ -1,7 +1,6 @@
 # Use postgres/example user/password credentials
 
 services:
-
   db:
     image: postgres:latest
     restart: always

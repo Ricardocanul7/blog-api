@@ -2,6 +2,7 @@ package com.ricardocanul.blog.security;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,5 +31,9 @@ public class BlogUserDetails implements UserDetails {
     @Override
     public String getUsername() {
         return user.getEmail();
+    }
+
+    public UUID getId() {
+        return user.getId();
     }
 }

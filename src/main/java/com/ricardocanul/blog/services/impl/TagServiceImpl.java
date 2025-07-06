@@ -3,7 +3,9 @@ package com.ricardocanul.blog.services.impl;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -51,6 +53,18 @@ public class TagServiceImpl implements TagService {
         savedTags.addAll(existingTags);
 
         return savedTags;
+    }
+
+    @Transactional
+    @Override
+    public void deleteTag(UUID id) {
+        tagRepository.findById(id).ifPresent(tag -> {
+            if (!tag.getPosts().isEmpty()) {
+                throw new IllegalStateException("Cannot delete tag with posts");
+            }
+
+            tagRepository.deleteById(id);
+        });
     }
 
 }

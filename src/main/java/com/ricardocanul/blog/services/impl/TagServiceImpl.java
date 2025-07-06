@@ -3,18 +3,18 @@ package com.ricardocanul.blog.services.impl;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ricardocanul.blog.domain.entities.Tag;
 import com.ricardocanul.blog.repositories.TagRepository;
 import com.ricardocanul.blog.services.TagService;
 
-import jakarta.transaction.Transactional;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -65,6 +65,12 @@ public class TagServiceImpl implements TagService {
 
             tagRepository.deleteById(id);
         });
+    }
+
+    @Override
+    public Tag getTagById(UUID id) {
+        return tagRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Tag not found with ID: " + id));
     }
 
 }

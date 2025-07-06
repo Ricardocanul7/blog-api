@@ -8,14 +8,14 @@ import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
 import com.ricardocanul.blog.domain.PostStatus;
-import com.ricardocanul.blog.domain.dtos.TagResponse;
+import com.ricardocanul.blog.domain.dtos.TagDto;
 import com.ricardocanul.blog.domain.entities.Post;
 import com.ricardocanul.blog.domain.entities.Tag;
 
 @Mapper(componentModel = "spring", unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface TagMapper {
     @Mapping(target = "postCount", source = "posts", qualifiedByName = "calculatePostCount")
-    TagResponse toTagResponse(Tag tag);
+    TagDto toTagResponse(Tag tag);
 
     @Named("calculatePostCount")
     default Integer calculatePostCount(Set<Post> posts) {

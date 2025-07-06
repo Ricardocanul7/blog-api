@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ricardocanul.blog.domain.dtos.CreateTagsRequest;
-import com.ricardocanul.blog.domain.dtos.TagResponse;
+import com.ricardocanul.blog.domain.dtos.TagDto;
 import com.ricardocanul.blog.domain.entities.Tag;
 import com.ricardocanul.blog.mappers.TagMapper;
 import com.ricardocanul.blog.services.TagService;
@@ -30,18 +30,18 @@ public class TagController {
     private final TagMapper tagMapper;
 
     @GetMapping
-    public ResponseEntity<List<TagResponse>> getAllTags() {
+    public ResponseEntity<List<TagDto>> getAllTags() {
         List<Tag> tags = tagService.getTags();
-        List<TagResponse> tagResponses = tags.stream().map(tag -> tagMapper.toTagResponse(tag)).toList();
+        List<TagDto> tagResponses = tags.stream().map(tag -> tagMapper.toTagResponse(tag)).toList();
 
         return ResponseEntity.ok(tagResponses);
     }
 
     @PostMapping
-    public ResponseEntity<List<TagResponse>> createTags(@RequestBody CreateTagsRequest createTagsRequest) {
+    public ResponseEntity<List<TagDto>> createTags(@RequestBody CreateTagsRequest createTagsRequest) {
         List<Tag> savedTags = tagService.createTags(createTagsRequest.getNames());
 
-        List<TagResponse> createdTagResponse = savedTags.stream().map(tagMapper::toTagResponse).toList();
+        List<TagDto> createdTagResponse = savedTags.stream().map(tagMapper::toTagResponse).toList();
 
         return new ResponseEntity<>(
                 createdTagResponse,
